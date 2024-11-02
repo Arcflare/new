@@ -1,5 +1,7 @@
 {
-  "rewrites": [
-    { "source": "/send.php", "destination": "/api/send.php" }
-  ]
+  "functions": {
+    "api/*.php": {
+      "runtime": "vercel-php@0.7.3"
+    }
+  }
 }
