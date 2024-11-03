@@ -1,15 +1,13 @@
-// public/script.js
-
 document.getElementById("contactForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
     const formData = new FormData(this);
-    formData.append("url", window.location.href); // Добавляем URL страницы
+    formData.append("url", window.location.href); // Автоматически добавляем текущий URL страницы
 
     const responseDiv = document.getElementById("response");
 
     try {
-        const response = await fetch("/send", {  // Обновляем путь на /send
+        const response = await fetch("/send", {  // Отправляем данные на обработчик /send
             method: "POST",
             body: formData,
         });
@@ -30,4 +28,3 @@ document.getElementById("contactForm").addEventListener("submit", async function
 
     this.reset();
 });
-
