@@ -1,13 +1,15 @@
+// public/script.js
+
 document.getElementById("contactForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
     const formData = new FormData(this);
-    formData.append("https://new-lemon-mu.vercel.app/", window.location.href); // Добавляем URL страницы
+    formData.append("url", window.location.href); // Добавляем URL страницы
 
     const responseDiv = document.getElementById("response");
 
     try {
-        const response = await fetch("send.php", {
+        const response = await fetch("/send", {  // Обновляем путь на /send
             method: "POST",
             body: formData,
         });
