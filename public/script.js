@@ -1,30 +1,9 @@
-document.getElementById("contactForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
+// api/send.js
 
-    const formData = new FormData(this);
-    formData.append("url", window.location.href); // Автоматически добавляем текущий URL страницы
-
-    const responseDiv = document.getElementById("response");
-
-    try {
-        const response = await fetch("/send", {  // Отправляем данные на обработчик /send
-            method: "POST",
-            body: formData,
-        });
-
-        const result = await response.json();
-        
-        if (result.success) {
-            responseDiv.textContent = "Сообщение успешно отправлено!";
-            responseDiv.style.color = "green";
-        } else {
-            responseDiv.textContent = "Ошибка при отправке сообщения.";
-            responseDiv.style.color = "red";
-        }
-    } catch (error) {
-        responseDiv.textContent = "Ошибка соединения.";
-        responseDiv.style.color = "red";
+module.exports = async (req, res) => {
+    if (req.method === 'POST') {
+        res.status(200).json({ success: true, message: "Функция работает!" });
+    } else {
+        res.status(405).json({ success: false, message: "Метод не поддерживается" });
     }
-
-    this.reset();
-});
+};
