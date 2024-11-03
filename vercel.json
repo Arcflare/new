@@ -1,5 +1,7 @@
 {
-  "rewrites": [
-    { "source": "/send", "destination": "/api/send.js" }
-  ]
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
 }
