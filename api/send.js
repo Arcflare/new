@@ -6,7 +6,6 @@ export default async function handler(req, res) {
       return;
   }
 
-  // Здесь вы можете добавить код для отправки сообщения в Telegram
-
+  // Логика обработки данных формы
   res.status(200).json({ success: true, message: "Форма успешно отправлена!" });
 }
