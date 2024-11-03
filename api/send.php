@@ -1,47 +1,95 @@
 <?php
-// send.php
-
-header('Content-Type: application/json');
-
-// Получаем данные из формы
-$name = trim($_POST['name']);
-$phone = trim($_POST['phone']);
-$email = trim($_POST['email']);
-$message = trim($_POST['message']);
-$url = trim($_POST['url']);  // URL страницы
-
-// Валидация на сервере
-if (empty($name) || empty($phone) || empty($email) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo json_encode(['success' => false, 'message' => 'Некорректные данные']);
-    exit;
-}
-
-// Telegram Bot Token и Chat ID
-$token = "7468492860:AAEd2dvjmZeMkOEuWVZFqIwErfPaeBwlBx4";  // Укажи свой токен
-$chat_id = "6737551184";  // Укажи свой Chat ID
-
-// Получаем текущие дату и время
-$date = date("d.m.Y");
-$time = date("H:i");
-
-// Формируем текст сообщения
-$telegramMessage = "Новая заявка с сайта\n"
-    . "Имя: $name\n"
-    . "Телефон: $phone\n"
-    . "Почта: $email\n"
-    . "Сообщение: $message\n"
-    . "Дата: $date\n"
-    . "Время: $time\n"
-    . "URL страницы: $url";
-
-// Отправляем сообщение в Telegram
-$telegramUrl = "https://api.telegram.org/bot$token/sendMessage";
-$response = file_get_contents($telegramUrl . "?chat_id=$chat_id&text=" . urlencode($telegramMessage));
-
-// Проверяем, что сообщение отправлено успешно
-if ($response) {
-    echo json_encode(['success' => true]);
+ 
+// Токен
+  const TOKEN = '7468492860:AAEd2dvjmZeMkOEuWVZFqIwErfPaeBwlBx4';
+ 
+  // ID чата
+  const CHATID = '-6737551184';
+ 
+  // Массив допустимых значений типа файла.
+  $types = array('image/gif', 'image/png', 'image/jpeg', 'application/pdf');
+ 
+  // Максимальный размер файла в килобайтах
+  // 1048576; // 1 МБ
+  $size = 1073741824; // 1 ГБ
+ 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+ 
+  $fileSendStatus = '';
+  $textSendStatus = '';
+  $msgs = [];
+   
+  // Проверяем не пусты ли поля с именем и телефоном
+  if (!empty($_POST['name']) && !empty($_POST['phone'])) {
+     
+    // Если не пустые, то валидируем эти поля и сохраняем и добавляем в тело сообщения. Минимально для теста так:
+    $txt = "";
+     
+    // Имя
+    if (isset($_POST['name']) && !empty($_POST['name'])) {
+        $txt .= "Имя пославшего: " . strip_tags(trim(urlencode($_POST['name']))) . "%0A";
+    }
+     
+    // Номер телефона
+    if (isset($_POST['phone']) && !empty($_POST['phone'])) {
+        $txt .= "Телефон: " . strip_tags(trim(urlencode($_POST['phone']))) . "%0A";
+    }
+     
+    // Не забываем про тему сообщения
+    if (isset($_POST['theme']) && !empty($_POST['theme'])) {
+        $txt .= "Тема: " . strip_tags(urlencode($_POST['theme']));
+    }
+ 
+    $textSendStatus = @file_get_contents('https://api.telegram.org/bot'. TOKEN .'/sendMessage?chat_id=' . CHATID . '&parse_mode=html&text=' . $txt); 
+ 
+    if( isset(json_decode($textSendStatus)->{'ok'}) && json_decode($textSendStatus)->{'ok'} ) {
+      if (!empty($_FILES['files']['tmp_name'])) {
+     
+          $urlFile =  "https://api.telegram.org/bot" . TOKEN . "/sendMediaGroup";
+           
+          // Путь загрузки файлов
+          $path = $_SERVER['DOCUMENT_ROOT'] . '/telegramform/tmp/';
+           
+          // Загрузка файла и вывод сообщения
+          $mediaData = [];
+          $postContent = [
+            'chat_id' => CHATID,
+          ];
+       
+          for ($ct = 0; $ct < count($_FILES['files']['tmp_name']); $ct++) {
+            if ($_FILES['files']['name'][$ct] && @copy($_FILES['files']['tmp_name'][$ct], $path . $_FILES['files']['name'][$ct])) {
+              if ($_FILES['files']['size'][$ct] < $size && in_array($_FILES['files']['type'][$ct], $types)) {
+                $filePath = $path . $_FILES['files']['name'][$ct];
+                $postContent[$_FILES['files']['name'][$ct]] = new CURLFile(realpath($filePath));
+                $mediaData[] = ['type' => 'document', 'media' => 'attach://'. $_FILES['files']['name'][$ct]];
+              }
+            }
+          }
+       
+          $postContent['media'] = json_encode($mediaData);
+       
+          $curl = curl_init();
+          curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-Type:multipart/form-data"]);
+          curl_setopt($curl, CURLOPT_URL, $urlFile);
+          curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+          curl_setopt($curl, CURLOPT_POSTFIELDS, $postContent);
+          $fileSendStatus = curl_exec($curl);
+          curl_close($curl);
+          $files = glob($path.'*');
+          foreach($files as $file){
+            if(is_file($file))
+              unlink($file);
+          }
+      }
+      echo json_encode('SUCCESS');
+    } else {
+      echo json_encode('ERROR');
+      // 
+      // echo json_decode($textSendStatus);
+    }
+  } else {
+    echo json_encode('NOTVALID');
+  }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Ошибка при отправке']);
+  header("Location: /");
 }
-?>
