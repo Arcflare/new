@@ -4,7 +4,7 @@ document.getElementById("contactForm").addEventListener("submit", async function
     event.preventDefault();
 
     const formData = new FormData(this);
-    formData.append("url", window.location.href); // Добавляем URL страницы
+    formData.append("https://new-lemon-mu.vercel.app/", window.location.href); // Добавляем URL страницы
 
     const responseDiv = document.getElementById("response");
 
