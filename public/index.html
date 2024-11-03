@@ -1,45 +1,3234 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Форма обратной связи</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+    <title>Главная</title>
     <link rel="stylesheet" href="style.css">
-
+    
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
-     <!-- Flowbite -->
+     
+    <!-- Flowbite -->
      <link
      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
-     rel="stylesheet"
-   />
+     rel="stylesheet"/>
    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+   
+   <!-- Jquery -->
+   <script src="/js/jquery-3.7.1.js"></script>
 
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+   <!-- GSAP -->
+   <script src="/libs/gsap/gsap.min.js"></script>
+   <script src="/libs/gsap/ScrollTrigger.min.js"></script>
+   <script src="/libs/gsap/ScrollSmoother.min.js"></script>
+   <script src="/libs/gsap/Flip.min.js"></script>
+   <script src="/libs/gsap/TextPlugin.min.js"></script>
+
+   <!-- Яндекс карта -->
+   <script src="https://api-maps.yandex.ru/v3/?apikey=37d69321-daac-4695-b09d-17d3e649f6fb&lang=ru_RU"></script>
+   <script src="/js/placemark.js" defer></script>
    
 </head>
-<body class="bg-slate-900">
+<body>
+    <!-- Упаковка для SmoothTrigger -->
+    <div class="wrapper dark:bg-slate-900 bg-gray-500">
+      <div class="content">
+        <!-- Шапка сайта -->
+        <header>
+          <nav
+            class="menu bg-gray-400 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-slate-800"
+          >
+            <div
+              class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-2"
+            >
+              <!-- Логотип -->
+              <a href="./index.html" class="flex items-center">
+                <img
+                  src="./media/logo-dark-01.svg"
+                  class="dark:hidden mr-3 h-16 sm:h-15"
+                />
 
+                <img
+                  src="/media/logo.svg"
+                  class="hidden dark:block mr-3 h-16 sm:h-15"
+                />
+              </a>
 
-    <div class="contact-form">
-       
-        <form class="flex flex-col max-w-screen-sm mx-auto mt-11" id="contactForm" method="post">
-            <label class="text-white" for="name">Имя</label>
-            <input class="bg-slate-500 mb-5" type="text" id="name" name="name" required>
+              <!-- Кнопка входа и бургер -->
+              <div class="flex items-center lg:order-2">
+                <a
+                  href="#"
+                  class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                  >Вход</a
+                >
+                <button
+                  id="theme-toggle"
+                  type="button"
+                  class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5"
+                >
+                  <svg
+                    id="theme-toggle-dark-icon"
+                    class="hidden w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+                    ></path>
+                  </svg>
 
-            <label class="text-white" for="phone">Телефон</label>
-            <input class="bg-slate-500 mb-5" type="tel" id="phone" name="phone" required>
+                  <svg
+                    id="theme-toggle-light-icon"
+                    class="hidden w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
 
-            <label class="text-white" for="email">Почта</label>
-            <input class="bg-slate-500 mb-5" type="email" id="email" name="email" required>
+                <button
+                  data-collapse-toggle="mobile-menu-2"
+                  aria-controls="mobile-menu-2"
+                  aria-expanded="false"
+                >
+                  <div
+                    class="hamburger mx-4 lg:hidden hover:bg-gray-100 dark:hover:bg-gray-700 py-1 px-3 rounded-lg"
+                    id="hamburger-1"
+                  >
+                    <span
+                      class="line bg-gray-500 dark:bg-gray-400 rounded-lg"
+                    ></span>
+                    <span
+                      class="line bg-gray-500 dark:bg-gray-400 rounded-lg"
+                    ></span>
+                    <span
+                      class="line bg-gray-500 dark:bg-gray-400 rounded-lg"
+                    ></span>
+                  </div>
+                </button>
+              </div>
 
-            <label class="text-white" for="message">Сообщение</label>
-            <textarea class="bg-slate-500 mb-5" id="message" name="message" rows="4" required></textarea>
+              <!-- Меню сайта -->
+              <div
+                class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
+                id="mobile-menu-2"
+              >
+                <ul
+                  class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0"
+                >
+                  <li>
+                    <a
+                      href="about.html"
+                      class="text-yell block py-2 pr-4 pl-3 text-gray-800 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                      aria-current="page"
+                      >Компания</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="./service.html"
+                      class="text-yell block py-2 pr-4 pl-3 text-gray-800 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                      >Услуги</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="./awp.html"
+                      class="text-yell block py-2 pr-4 pl-3 text-gray-800 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                      >AWP</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="./news.html"
+                      class="text-yell block py-2 pr-4 pl-3 text-gray-800 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                      >Новости</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="./carier.html"
+                      class="text-yell block py-2 pr-4 pl-3 text-gray-800 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                      >Карьера</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="./contacts.html"
+                      class="text-yell block py-2 pr-4 pl-3 text-gray-800 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                      >Контакты</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </header>
 
-            <button class="bg-slate-600 py-2 w-60 mx-auto mt-5 text-white" type="submit">Отправить</button>
-            <div id="response"></div>
-        </form>
+        <!-- Паутинка -->
+        <div id="large-header" class="absolute large-header">
+          <canvas id="demo-canvas" width="941" height="775"></canvas>
+        </div>
+
+        <!-- Секция Hero -->
+        <section class="main-slide">
+          <div class="py-8 px-4 max-w-screen-xl text-center lg:py-10">
+            <div class="main-pic news border dark:border-gray-400"></div>
+            <!-- Кнопка на акцентную новость -->
+            <a
+              href="#"
+              class="new-button inline-flex justify-between items-center py-2 px-2 pr-4 mb-7 text-sm text-white bg-gray-700 rounded-full dark:bg-slate-800 dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
+              role="alert"
+            >
+              <span
+                class="text-xs bg-primary-600 rounded-full text-white px-4 py-1.5 mr-3"
+                >Новое</span
+              >
+              <span class="shine-text text-sm font-medium"
+                >Журнал: Основы AWP</span
+              >
+              <svg
+                class="ml-2 w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </a>
+
+            <!-- Заголовок -->
+            <h1
+              class="mov-23 mt-10 mb-4 text-4xl font-extrabold leading-none text-white md:text-5xl lg:text-6xl dark:text-white text-left"
+            >
+              <span>Инжиниринг</span>
+              <br />
+              <span class="text-pretty text-nowrap">в строительном</span>
+              <br />
+              <span>секторе</span>
+            </h1>
+
+            <!-- Подзаголовок -->
+            <h1
+              class="mov-23 mt-10 mb-4 font-normal tracking-tight leading-none text-white text-xl md:text-xl lg:text-2xl dark:text-white text-left"
+            >
+              <span
+                >Меняем представление об эффективности управления
+                строительством</span
+              >
+            </h1>
+
+            <!-- <p
+class="mt-10 mb-10 text-xl font-normal text-gray-400 lg:text-4xl sm:px-16 xl:px-48 dark:text-gray-300"
+>
+Меняем представление об эффективности управления строительством
+</p> -->
+
+            <!-- Блок двух кнопок -->
+            <div
+              class="hero-btn mt-10 flex flex-col lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+            >
+              <!-- Кнопка Подробнее -->
+              <a
+                href="#"
+                class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white dark:text-gray-400 dark:hover:text-white transition hover:duration-[2000ms]"
+              >
+                Подробнее
+                <svg
+                  class="ml-2 -mr-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+
+              <!-- Кнопка Заявки -->
+              <a
+                href="zayavka.html"
+                class="mail-button inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-300 rounded-lg border border-gray-300 hover:bg-gray-700 dark:text-white dark:border-gray-500 dark:hover:bg-gray-700"
+              >
+                <svg
+                  class="mr-2 -ml-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 11L3 6v10h10v2H3q-.825 0-1.412-.587T1 16V4q0-.825.588-1.412T3 2h16q.825 0 1.413.588T21 4v5h-2V6zm0-2l8-5H3zm8 13q-1.65 0-2.825-1.175T15 18v-4.5q0-1.05.725-1.775T17.5 11t1.775.725T20 13.5V18h-2v-4.5q0-.2-.15-.35T17.5 13t-.35.15t-.15.35V18q0 .825.588 1.413T19 20t1.413-.587T21 18v-4h2v4q0 1.65-1.175 2.825T19 22M3 6V4v12z"
+                  ></path>
+                </svg>
+                Оставить заявку
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Cекция карточек -->
+        <section class="main-cards">
+          <div class="gitems-center mx-auto max-w-screen-xl">
+            <!-- Сетка карточек -->
+            <div class="cards-grid grid gap-8 lg:grid-cols-3">
+              <!-- Первая карточка -->
+              <article class="p-6 c-1">
+                <div class="hero-card-1 news mb-7 border dark:border-gray-500">
+                  <img src="/media/15.webp" />
+                </div>
+
+                <h2
+                  class="hero-card-1-t mb-5 text-xl font-medium tracking-tight text-gray-900 dark:text-gray-400"
+                >
+                  <a href="#">Прогрессивное пакетирование работ (AWP)</a>
+                </h2>
+                
+                <form action="awp.html">
+                  <button type="submit" class="dark:hidden hero-card-btn button-l mt-10">
+                    <span class="button_lg-l">
+                      <span class="button_sl-l"></span>
+                      <span class="button_text-l btn-shine">Подробнее</span>
+                    </span>
+                  </button>
+                </form>
+                
+                <form action="awp.html">
+                  <button type="submit" class="hidden dark:block hero-card-btn button mt-10">
+                    <span class="button_lg">
+                      <span class="button_sl"></span>
+                      <span class="button_text btn-shine">Подробнее</span>
+                    </span>
+                  </button>
+                </form>
+
+                
+              </article>
+
+              <!-- Вторая карточка -->
+              <article class="p-6 c-2">
+                <div class="hero-card-2 news mb-7 border dark:border-gray-500">
+                  <img src="/media/13.webp" />
+                </div>
+
+                <h2
+                  class="hero-card-2-t mb-5 text-xl font-medium tracking-tight text-gray-900 dark:text-gray-400"
+                >
+                  <a href="#">Эффективное управление строительством</a>
+                </h2>
+                <form action="uprav-service.html">
+                  <button type="submit" class="dark:hidden hero-card-btn button-l mt-10">
+                    <span class="button_lg-l">
+                      <span class="button_sl-l"></span>
+                      <span class="button_text-l btn-shine">Подробнее</span>
+                    </span>
+                  </button>
+                </form>
+                
+                <form action="uprav-service.html">
+                  <button type="submit" class="hidden dark:block hero-card-btn button mt-10">
+                    <span class="button_lg">
+                      <span class="button_sl"></span>
+                      <span class="button_text btn-shine">Подробнее</span>
+                    </span>
+                  </button>
+                </form>
+              </article>
+
+              <!-- Третья карточка -->
+              <article class="p-6 c-3">
+                <div class="hero-card-3 news mb-7 border dark:border-gray-500">
+                  <img src="/media/14.webp" />
+                </div>
+
+                <h2
+                  class="hero-card-3-t mb-5 text-xl font-medium tracking-tight text-gray-900 dark:text-gray-400"
+                >
+                  <a href="#">Цифровизация рабочих процессов</a>
+                </h2>
+
+                <form action="digit-service.html">
+                  <button type="submit" class="dark:hidden hero-card-btn button-l mt-10">
+                    <span class="button_lg-l">
+                      <span class="button_sl-l"></span>
+                      <span class="button_text-l btn-shine">Подробнее</span>
+                    </span>
+                  </button>
+                </form>
+                
+                <form action="digit-service.html">
+                  <button type="submit" class="hidden dark:block hero-card-btn button mt-10">
+                    <span class="button_lg">
+                      <span class="button_sl"></span>
+                      <span class="button_text btn-shine">Подробнее</span>
+                    </span>
+                  </button>
+                </form>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- Секция ICPexpert -->
+        <section class="sec-1">
+          <div
+            class="icp-sec gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 lg:grid lg:grid-cols-2 sm:py-16 lg:px-6 my-10"
+          >
+            <!-- Видео -->
+            <video
+              class="video w-full border border-gray-700 pic-2"
+              loop
+              autoplay
+              muted
+              controls
+            >
+              <source src="/media/video.mp4" type="video/mp4" />
+            </video>
+
+            <!-- Блок описания компании -->
+            <div class="mt-4 md:mt-0">
+              <button
+                class="mb-5 sec-title text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt">&nbsp;ICPexpert&nbsp;</span>
+                <span aria-hidden="true" class="hover-textt"
+                  >&nbsp;ICPexpert&nbsp;</span
+                >
+              </button>
+
+              <p class="dark:hidden mb-6 font-medium text-gray-900 sm:text-xl">
+                Прогрессивная инжиниринговая компания в области управления и
+                контроля инвестиционно-строительных проектов на всех этапах
+                жизненного цикла, применяющая в своей деятельности современные
+                передовые методологии и технологии, успешно зарекомендовавшие
+                себя в мировой строительной практике.
+              </p>
+
+              <p
+                class="hidden dark:block mb-6 font-light sm:text-xl text-gray-400"
+              >
+                Прогрессивная инжиниринговая компания в области управления и
+                контроля инвестиционно-строительных проектов на всех этапах
+                жизненного цикла, применяющая в своей деятельности современные
+                передовые методологии и технологии, успешно зарекомендовавшие
+                себя в мировой строительной практике.
+              </p>
+
+              <!-- Кнопка Подробнее -->
+              <form action="about.html">
+                <button type="submit" class="dark:hidden button-l mt-10">
+                  <span class="button_lg-l">
+                    <span class="button_sl-l"></span>
+                    <span class="button_text-l btn-shine">Подробнее</span>
+                  </span>
+                </button>
+              </form>
+              
+              <form action="about.html">
+                <button type="submit" class="hidden dark:block button mt-10">
+                  <span class="button_lg">
+                    <span class="button_sl"></span>
+                    <span class="button_text btn-shine">Подробнее</span>
+                  </span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Секция статистики -->
+        <section
+          class="statistic bg-gray-700 dark:bg-slate-800 border border-gray-700"
+        >
+          <!-- Частицы на фоне -->
+          <!-- <canvas class="particles absolute" id="particleCanvas"></canvas> -->
+
+          <div
+            class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6"
+          >
+            <dl
+              class="grid max-w-screen-md gap-16 mx-auto text-gray-900 sm:grid-cols-3 dark:text-white"
+            >
+              <!-- Первая цифра -->
+              <div class="mov-3 flex flex-col items-center justify-center">
+                <div class="flex gap-2">
+                  <span
+                    class="count shine mb-2 text-4xl md:text-7xl font-extrabold"
+                    >30</span
+                  >
+                  <span class="shine mb-2 text-4xl md:text-7xl font-extrabold"
+                    >+</span
+                  >
+                </div>
+
+                <dd class="text-lg font-light text-white dark:text-gray-300">
+                  профессионалов<br />
+                  с уникальным опытом
+                </dd>
+              </div>
+
+              <!-- Вторая цифра -->
+              <div class="flex flex-col items-center justify-center">
+                <div class="flex gap-2">
+                  <span
+                    class="count shine mb-2 text-4xl md:text-7xl font-extrabold"
+                    >10</span
+                  >
+                  <span class="shine mb-2 text-4xl md:text-7xl font-extrabold"
+                    >+</span
+                  >
+                </div>
+                <dd class="text-lg font-light text-white dark:text-gray-300">
+                  крупных проектов<br />
+                  реализуем ежегодно
+                </dd>
+              </div>
+
+              <!-- Третья цифра -->
+              <div class="mov-4 flex flex-col items-center justify-center">
+                <div class="flex gap-2">
+                  <span
+                    class="count shine mb-2 text-4xl md:text-7xl font-extrabold"
+                    >50</span
+                  >
+                  <span class="shine mb-2 text-4xl md:text-7xl font-extrabold"
+                    >+</span
+                  >
+                </div>
+                <dd class="text-lg font-light text-white dark:text-gray-300">
+                  проверенных<br />
+                  временем партнеров
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <!-- Секция AWP -->
+        <section class="sec-2">
+          <div
+            class="awp-sec py-8 px-4 mx-auto max-w-screen-xl sm:py-10 lg:px-6 my-10"
+          >
+            <div class="max-w-screen-md mb-8 lg:mb-16">
+              <!-- Картинка -->
+              <div class="mov-5 flex absolute w-96">
+                <img src="/media/3.webp" alt="" />
+              </div>
+
+              <!-- Заголовок -->
+              <button
+                class="mb-5 sec-title text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt-2"
+                  >&nbsp;Время&nbsp;поднять&nbsp;планку&nbsp;</span
+                >
+                <span aria-hidden="true" class="hover-textt-2"
+                  >&nbsp;Время&nbsp;поднять&nbsp;планку&nbsp;</span
+                >
+              </button>
+
+              <!-- Блок Негативные факторы -->
+              <div class="abs-pic"></div>
+
+              <p
+                class="dark:hidden second-title text-gray-900 sm:text-xl mb-10 font-semibold"
+              >
+                Предпосылки, указывающие на необходимость трансформации системы
+                управления проектами Вашей компании:
+              </p>
+
+              <p
+                class="hidden dark:block second-title sm:text-xl text-gray-400 mb-10 font-light"
+              >
+                Предпосылки, указывающие на необходимость трансформации системы
+                управления проектами Вашей компании:
+              </p>
+
+              <!-- Первый -->
+              <div class="flex flex-row pl-10 my-6 gap-8 ml-2">
+                <div class="flex basis-9">
+                  <svg
+                    class="iconn iconn-1 text-gray-700 dark:text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                  >
+                    <defs>
+                      <symbol id="lineMdCogLoop0">
+                        <path
+                          fill="none"
+                          stroke-width="2"
+                          d="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="d"
+                            begin="0.8s"
+                            dur="0.2s"
+                            values="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12;M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.38 7.2 19 6.12 19.01 6.14C19.01 6.14 20.57 8.84 20.57 8.84C20.58 8.87 18.35 10.59 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                          />
+                        </path>
+                      </symbol>
+                    </defs>
+                    <g fill="none" stroke="currentColor" stroke-width="2">
+                      <g stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          stroke-dasharray="42"
+                          stroke-dashoffset="42"
+                          d="M12 5.5C15.59 5.5 18.5 8.41 18.5 12C18.5 15.59 15.59 18.5 12 18.5C8.41 18.5 5.5 15.59 5.5 12C5.5 8.41 8.41 5.5 12 5.5z"
+                          opacity="0"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            begin="0.2s"
+                            dur="0.5s"
+                            values="42;0"
+                          />
+                          <set attributeName="opacity" begin="0.2s" to="1" />
+                          <set attributeName="opacity" begin="0.7s" to="0" />
+                        </path>
+                        <path
+                          stroke-dasharray="20"
+                          stroke-dashoffset="20"
+                          d="M12 9C13.66 9 15 10.34 15 12C15 13.66 13.66 15 12 15C10.34 15 9 13.66 9 12C9 10.34 10.34 9 12 9z"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            dur="0.2s"
+                            values="20;0"
+                          />
+                        </path>
+                      </g>
+                      <g opacity="0">
+                        <use href="#lineMdCogLoop0" />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(60 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(120 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(180 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(240 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(300 12 12)"
+                        />
+                        <set attributeName="opacity" begin="0.7s" to="1" />
+                        <animateTransform
+                          attributeName="transform"
+                          dur="10s"
+                          repeatCount="indefinite"
+                          type="rotate"
+                          values="0 12 12;360 12 12"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="flex">
+                  <p
+                    class="text-gray-900 sm:text-xl dark:text-gray-100 text-left"
+                  >
+                    Превышение лимитов бюджета
+                  </p>
+                </div>
+              </div>
+
+              <!-- Второй -->
+              <div class="flex flex-row pl-10 my-6 gap-8 ml-2">
+                <div class="flex basis-9">
+                  <svg
+                    class="iconn iconn-2 text-gray-700 dark:text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                  >
+                    <defs>
+                      <symbol id="lineMdCogLoop0">
+                        <path
+                          fill="none"
+                          stroke-width="2"
+                          d="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="d"
+                            begin="0.8s"
+                            dur="0.2s"
+                            values="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12;M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.38 7.2 19 6.12 19.01 6.14C19.01 6.14 20.57 8.84 20.57 8.84C20.58 8.87 18.35 10.59 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                          />
+                        </path>
+                      </symbol>
+                    </defs>
+                    <g fill="none" stroke="currentColor" stroke-width="2">
+                      <g stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          stroke-dasharray="42"
+                          stroke-dashoffset="42"
+                          d="M12 5.5C15.59 5.5 18.5 8.41 18.5 12C18.5 15.59 15.59 18.5 12 18.5C8.41 18.5 5.5 15.59 5.5 12C5.5 8.41 8.41 5.5 12 5.5z"
+                          opacity="0"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            begin="0.2s"
+                            dur="0.5s"
+                            values="42;0"
+                          />
+                          <set attributeName="opacity" begin="0.2s" to="1" />
+                          <set attributeName="opacity" begin="0.7s" to="0" />
+                        </path>
+                        <path
+                          stroke-dasharray="20"
+                          stroke-dashoffset="20"
+                          d="M12 9C13.66 9 15 10.34 15 12C15 13.66 13.66 15 12 15C10.34 15 9 13.66 9 12C9 10.34 10.34 9 12 9z"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            dur="0.2s"
+                            values="20;0"
+                          />
+                        </path>
+                      </g>
+                      <g opacity="0">
+                        <use href="#lineMdCogLoop0" />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(60 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(120 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(180 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(240 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(300 12 12)"
+                        />
+                        <set attributeName="opacity" begin="0.7s" to="1" />
+                        <animateTransform
+                          attributeName="transform"
+                          dur="25s"
+                          repeatCount="indefinite"
+                          type="rotate"
+                          values="0 12 12;360 12 12"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="flex">
+                  <p
+                    class="text-gray-900 sm:text-xl dark:text-gray-100 text-left"
+                  >
+                    Выход сроков за рамки плана
+                  </p>
+                </div>
+              </div>
+
+              <!-- Третий -->
+              <div class="flex flex-row pl-10 my-6 gap-8 ml-2">
+                <div class="flex basis-9">
+                  <svg
+                    class="iconn iconn-2 text-gray-700 dark:text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                  >
+                    <defs>
+                      <symbol id="lineMdCogLoop0">
+                        <path
+                          fill="none"
+                          stroke-width="2"
+                          d="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="d"
+                            begin="0.8s"
+                            dur="0.2s"
+                            values="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12;M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.38 7.2 19 6.12 19.01 6.14C19.01 6.14 20.57 8.84 20.57 8.84C20.58 8.87 18.35 10.59 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                          />
+                        </path>
+                      </symbol>
+                    </defs>
+                    <g fill="none" stroke="currentColor" stroke-width="2">
+                      <g stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          stroke-dasharray="42"
+                          stroke-dashoffset="42"
+                          d="M12 5.5C15.59 5.5 18.5 8.41 18.5 12C18.5 15.59 15.59 18.5 12 18.5C8.41 18.5 5.5 15.59 5.5 12C5.5 8.41 8.41 5.5 12 5.5z"
+                          opacity="0"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            begin="0.2s"
+                            dur="0.5s"
+                            values="42;0"
+                          />
+                          <set attributeName="opacity" begin="0.2s" to="1" />
+                          <set attributeName="opacity" begin="0.7s" to="0" />
+                        </path>
+                        <path
+                          stroke-dasharray="20"
+                          stroke-dashoffset="20"
+                          d="M12 9C13.66 9 15 10.34 15 12C15 13.66 13.66 15 12 15C10.34 15 9 13.66 9 12C9 10.34 10.34 9 12 9z"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            dur="0.2s"
+                            values="20;0"
+                          />
+                        </path>
+                      </g>
+                      <g opacity="0">
+                        <use href="#lineMdCogLoop0" />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(60 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(120 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(180 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(240 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(300 12 12)"
+                        />
+                        <set attributeName="opacity" begin="0.7s" to="1" />
+                        <animateTransform
+                          attributeName="transform"
+                          dur="10s"
+                          repeatCount="indefinite"
+                          type="rotate"
+                          values="0 12 12;360 12 12"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="flex">
+                  <p
+                    class="text-gray-900 sm:text-xl dark:text-gray-100 text-left"
+                  >
+                    Низкая производительность труда
+                  </p>
+                </div>
+              </div>
+
+              <!-- Четвертый -->
+              <div class="flex flex-row pl-10 my-6 gap-8 ml-2">
+                <div class="flex basis-9">
+                  <svg
+                    class="iconn iconn-2 text-gray-700 dark:text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                  >
+                    <defs>
+                      <symbol id="lineMdCogLoop0">
+                        <path
+                          fill="none"
+                          stroke-width="2"
+                          d="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="d"
+                            begin="0.8s"
+                            dur="0.2s"
+                            values="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12;M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.38 7.2 19 6.12 19.01 6.14C19.01 6.14 20.57 8.84 20.57 8.84C20.58 8.87 18.35 10.59 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                          />
+                        </path>
+                      </symbol>
+                    </defs>
+                    <g fill="none" stroke="currentColor" stroke-width="2">
+                      <g stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          stroke-dasharray="42"
+                          stroke-dashoffset="42"
+                          d="M12 5.5C15.59 5.5 18.5 8.41 18.5 12C18.5 15.59 15.59 18.5 12 18.5C8.41 18.5 5.5 15.59 5.5 12C5.5 8.41 8.41 5.5 12 5.5z"
+                          opacity="0"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            begin="0.2s"
+                            dur="0.5s"
+                            values="42;0"
+                          />
+                          <set attributeName="opacity" begin="0.2s" to="1" />
+                          <set attributeName="opacity" begin="0.7s" to="0" />
+                        </path>
+                        <path
+                          stroke-dasharray="20"
+                          stroke-dashoffset="20"
+                          d="M12 9C13.66 9 15 10.34 15 12C15 13.66 13.66 15 12 15C10.34 15 9 13.66 9 12C9 10.34 10.34 9 12 9z"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            dur="0.2s"
+                            values="20;0"
+                          />
+                        </path>
+                      </g>
+                      <g opacity="0">
+                        <use href="#lineMdCogLoop0" />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(60 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(120 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(180 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(240 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(300 12 12)"
+                        />
+                        <set attributeName="opacity" begin="0.7s" to="1" />
+                        <animateTransform
+                          attributeName="transform"
+                          dur="25s"
+                          repeatCount="indefinite"
+                          type="rotate"
+                          values="0 12 12;360 12 12"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="flex">
+                  <p
+                    class="text-gray-900 sm:text-xl dark:text-gray-100 text-left"
+                  >
+                    Потери не предотвращаются
+                  </p>
+                </div>
+              </div>
+
+              <!-- Пятый -->
+              <div class="flex flex-row pl-10 my-6 gap-8 ml-2">
+                <div class="flex basis-9">
+                  <svg
+                    class="iconn iconn-2 text-gray-700 dark:text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                  >
+                    <defs>
+                      <symbol id="lineMdCogLoop0">
+                        <path
+                          fill="none"
+                          stroke-width="2"
+                          d="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="d"
+                            begin="0.8s"
+                            dur="0.2s"
+                            values="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12;M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.38 7.2 19 6.12 19.01 6.14C19.01 6.14 20.57 8.84 20.57 8.84C20.58 8.87 18.35 10.59 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                          />
+                        </path>
+                      </symbol>
+                    </defs>
+                    <g fill="none" stroke="currentColor" stroke-width="2">
+                      <g stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          stroke-dasharray="42"
+                          stroke-dashoffset="42"
+                          d="M12 5.5C15.59 5.5 18.5 8.41 18.5 12C18.5 15.59 15.59 18.5 12 18.5C8.41 18.5 5.5 15.59 5.5 12C5.5 8.41 8.41 5.5 12 5.5z"
+                          opacity="0"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            begin="0.2s"
+                            dur="0.5s"
+                            values="42;0"
+                          />
+                          <set attributeName="opacity" begin="0.2s" to="1" />
+                          <set attributeName="opacity" begin="0.7s" to="0" />
+                        </path>
+                        <path
+                          stroke-dasharray="20"
+                          stroke-dashoffset="20"
+                          d="M12 9C13.66 9 15 10.34 15 12C15 13.66 13.66 15 12 15C10.34 15 9 13.66 9 12C9 10.34 10.34 9 12 9z"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            dur="0.2s"
+                            values="20;0"
+                          />
+                        </path>
+                      </g>
+                      <g opacity="0">
+                        <use href="#lineMdCogLoop0" />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(60 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(120 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(180 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(240 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(300 12 12)"
+                        />
+                        <set attributeName="opacity" begin="0.7s" to="1" />
+                        <animateTransform
+                          attributeName="transform"
+                          dur="10s"
+                          repeatCount="indefinite"
+                          type="rotate"
+                          values="0 12 12;360 12 12"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="flex">
+                  <p
+                    class="text-gray-900 sm:text-xl dark:text-gray-100 text-left"
+                  >
+                    Высокая кадровая текучесть
+                  </p>
+                </div>
+              </div>
+
+              <!-- Шестой -->
+              <div class="flex flex-row pl-10 my-6 gap-8 ml-2">
+                <div class="flex basis-9">
+                  <svg
+                    class="iconn iconn-2 text-gray-700 dark:text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                  >
+                    <defs>
+                      <symbol id="lineMdCogLoop0">
+                        <path
+                          fill="none"
+                          stroke-width="2"
+                          d="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="d"
+                            begin="0.8s"
+                            dur="0.2s"
+                            values="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12;M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.38 7.2 19 6.12 19.01 6.14C19.01 6.14 20.57 8.84 20.57 8.84C20.58 8.87 18.35 10.59 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                          />
+                        </path>
+                      </symbol>
+                    </defs>
+                    <g fill="none" stroke="currentColor" stroke-width="2">
+                      <g stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          stroke-dasharray="42"
+                          stroke-dashoffset="42"
+                          d="M12 5.5C15.59 5.5 18.5 8.41 18.5 12C18.5 15.59 15.59 18.5 12 18.5C8.41 18.5 5.5 15.59 5.5 12C5.5 8.41 8.41 5.5 12 5.5z"
+                          opacity="0"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            begin="0.2s"
+                            dur="0.5s"
+                            values="42;0"
+                          />
+                          <set attributeName="opacity" begin="0.2s" to="1" />
+                          <set attributeName="opacity" begin="0.7s" to="0" />
+                        </path>
+                        <path
+                          stroke-dasharray="20"
+                          stroke-dashoffset="20"
+                          d="M12 9C13.66 9 15 10.34 15 12C15 13.66 13.66 15 12 15C10.34 15 9 13.66 9 12C9 10.34 10.34 9 12 9z"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            dur="0.2s"
+                            values="20;0"
+                          />
+                        </path>
+                      </g>
+                      <g opacity="0">
+                        <use href="#lineMdCogLoop0" />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(60 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(120 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(180 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(240 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(300 12 12)"
+                        />
+                        <set attributeName="opacity" begin="0.7s" to="1" />
+                        <animateTransform
+                          attributeName="transform"
+                          dur="25s"
+                          repeatCount="indefinite"
+                          type="rotate"
+                          values="0 12 12;360 12 12"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="flex">
+                  <p
+                    class="text-gray-900 sm:text-xl dark:text-gray-100 text-left"
+                  >
+                    Низкий уровень охраны труда
+                  </p>
+                </div>
+              </div>
+
+              <!-- Седьмой -->
+              <div class="flex flex-row pl-10 my-6 gap-8 ml-2">
+                <div class="flex basis-9">
+                  <svg
+                    class="iconn iconn-2 text-gray-700 dark:text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                  >
+                    <defs>
+                      <symbol id="lineMdCogLoop0">
+                        <path
+                          fill="none"
+                          stroke-width="2"
+                          d="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="d"
+                            begin="0.8s"
+                            dur="0.2s"
+                            values="M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.6 7.4 16.8 7.61 16.99 7.83C17.46 8.4 17.85 9.05 18.11 9.77C18.2 10.03 18.28 10.31 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12;M15.24 6.37C15.65 6.6 16.04 6.88 16.38 7.2C16.38 7.2 19 6.12 19.01 6.14C19.01 6.14 20.57 8.84 20.57 8.84C20.58 8.87 18.35 10.59 18.35 10.59C18.45 11.04 18.5 11.52 18.5 12"
+                          />
+                        </path>
+                      </symbol>
+                    </defs>
+                    <g fill="none" stroke="currentColor" stroke-width="2">
+                      <g stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          stroke-dasharray="42"
+                          stroke-dashoffset="42"
+                          d="M12 5.5C15.59 5.5 18.5 8.41 18.5 12C18.5 15.59 15.59 18.5 12 18.5C8.41 18.5 5.5 15.59 5.5 12C5.5 8.41 8.41 5.5 12 5.5z"
+                          opacity="0"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            begin="0.2s"
+                            dur="0.5s"
+                            values="42;0"
+                          />
+                          <set attributeName="opacity" begin="0.2s" to="1" />
+                          <set attributeName="opacity" begin="0.7s" to="0" />
+                        </path>
+                        <path
+                          stroke-dasharray="20"
+                          stroke-dashoffset="20"
+                          d="M12 9C13.66 9 15 10.34 15 12C15 13.66 13.66 15 12 15C10.34 15 9 13.66 9 12C9 10.34 10.34 9 12 9z"
+                        >
+                          <animate
+                            fill="freeze"
+                            attributeName="stroke-dashoffset"
+                            dur="0.2s"
+                            values="20;0"
+                          />
+                        </path>
+                      </g>
+                      <g opacity="0">
+                        <use href="#lineMdCogLoop0" />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(60 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(120 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(180 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(240 12 12)"
+                        />
+                        <use
+                          href="#lineMdCogLoop0"
+                          transform="rotate(300 12 12)"
+                        />
+                        <set attributeName="opacity" begin="0.7s" to="1" />
+                        <animateTransform
+                          attributeName="transform"
+                          dur="10s"
+                          repeatCount="indefinite"
+                          type="rotate"
+                          values="0 12 12;360 12 12"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="flex">
+                  <p
+                    class="text-gray-900 sm:text-xl dark:text-gray-100 text-left"
+                  >
+                    Плановая доходность не достигается
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Блок внедрения AWP -->
+            <div
+              class="mov-1 text-awp dark:bg-slate-800 border border-gray-700 mb-10 p-5"
+            >
+              <p class="text-accent sm:text-xl m-4">
+                Внедрение методологии Прогрессивного пакетирования работ (AWP -
+                Advanced work packaging) меняет представление об управлении
+                инвестиционно-строительными проектами и позволяет успешно
+                нивелировать негативные факторы.
+              </p>
+            </div>
+
+            <form action="awp.html">
+              <button type="submit" class="dark:hidden hero-card-btn button-l mt-10">
+                <span class="button_lg-l">
+                  <span class="button_sl-l"></span>
+                  <span class="button_text-l btn-shine">Подробнее</span>
+                </span>
+              </button>
+            </form>
+            
+            <form action="awp.html">
+              <button type="submit" class="hidden dark:block hero-card-btn button mt-10">
+                <span class="button_lg">
+                  <span class="button_sl"></span>
+                  <span class="button_text btn-shine">Подробнее</span>
+                </span>
+              </button>
+            </form>
+
+            <!-- Блок предложения -->
+            <div
+              class="mov-2 text-awp flex dark:bg-slate-800 border border-gray-700 my-10 p-5"
+            >
+              <p class="text-white sm:text-xl dark:text-gray-400 m-4">
+                Специалисты ICPexpert - действующие функционеры строительного
+                сектора с многолетним опытом помогут Вашей компании
+                трансформировать систему управления проектами интегрируя
+                методологию AWP и выйти на новый качественный уровень.
+              </p>
+            </div>
+
+            <!-- Блок оценки компании -->
+            <p
+              class="dark:hidden font-medium sm:text-lg text-gray-900 mt-10 mb-6"
+            >
+              Оцените степень готовности Вашей компании к внедрению методологии
+              Прогрессивного пакетирования работ.
+            </p>
+
+            <p class="hidden dark:block sm:text-lg text-gray-200 mt-10 mb-6">
+              Оцените степень готовности Вашей компании к внедрению методологии
+              Прогрессивного пакетирования работ.
+            </p>
+
+            <form action="awp-ocenka.html">
+              <button type="submit" class="dark:hidden hero-card-btn button-l mt-10">
+                <span class="button_lg-l">
+                  <span class="button_sl-l"></span>
+                  <span class="button_text-l btn-shine">Оценить</span>
+                </span>
+              </button>
+            </form>
+            
+            <form action="awp-ocenka.html">
+              <button type="submit" class="hidden dark:block hero-card-btn button mt-10">
+                <span class="button_lg">
+                  <span class="button_sl"></span>
+                  <span class="button_text btn-shine">Оценить</span>
+                </span>
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Секция Компетенции -->
+        <section class="sec-3">
+          <div
+            class="comp-sec py-8 px-4 mx-auto max-w-screen-xl sm:py-10 lg:px-6 my-10"
+          >
+            <div class="dark:hidden mov-22l flex absolute w-96 z-0">
+              <img src="./media/logo-dark-01.svg" alt="" />
+            </div>
+
+            <div class="hidden dark:block mov-22 absolute w-96 z-0">
+              <img src="./media/logo.svg" alt="" />
+            </div>
+
+            <!-- Заголовок / Подзаголовок -->
+            <div class="max-w-screen-md mb-8 lg:mb-16">
+              <button
+                class="mb-5 sec-title text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt"
+                  >&nbsp;Наши&nbsp;компетенции&nbsp;</span
+                >
+                <span aria-hidden="true" class="hover-textt-3"
+                  >&nbsp;Наши&nbsp;компетенции&nbsp;</span
+                >
+              </button>
+
+              <p
+                class="dark:hidden second-title text-gray-900 sm:text-xl mb-10 font-semibold"
+              >
+                Базовым направлением нашей деятельности является широкий спектр
+                инжиниринговых услуг в строительной сфере
+              </p>
+
+              <p
+                class="hidden dark:block second-title sm:text-xl text-gray-400 mb-10 font-light"
+              >
+                Базовым направлением нашей деятельности является широкий спектр
+                инжиниринговых услуг в строительной сфере.
+              </p>
+            </div>
+
+            <!-- Сетка компетенций -->
+            <div
+              class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0"
+            >
+              <!-- Первая -->
+              <div class="serv-1">
+                <div
+                  class="flex justify-center items-center mb-4 w-10 h-10 lg:h-12 lg:w-12"
+                >
+                  <svg
+                    class="icon-1 w-24 h-24 text-gray-400 lg:w-15 lg:h-15 dark:text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M2 2h9v9H2zm2 2v5h5V4zm9-2h9v9h-9zm2 2v5h5V4zM2 13h9v9H2zm2 2v5h5v-5zm12.5-1.5h2v3h3v2h-3v3h-2v-3h-3v-2h3z"
+                    />
+                  </svg>
+                </div>
+                <h3
+                  class="mb-2 text-xl font-bold text-gray-900 dark:text-white"
+                >
+                  Прогрессивное<br />
+                  пакетирование работ
+                </h3>
+                <p class="text-gray-900 dark:text-gray-400">
+                  Декомпозиция инвестиционно-строительного проекта на
+                  совокупность управляемых детальных пакетов работ различного
+                  назначения в целях сокращения сроков и затрат за счет
+                  повышения производительности труда.
+                </p>
+
+                
+              </div>
+
+              <!-- Вторая -->
+              <div class="mov-7 serv-2">
+                <div
+                  class="flex justify-center items-center mb-4 w-10 h-10 lg:h-12 lg:w-12"
+                >
+                  <svg
+                    class="icon-2 w-24 h-24 text-gray-400 lg:w-15 lg:h-15 dark:text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M20 2v4.657l1.53-1.466l1.384 1.445L19 10.385l-3.914-3.75l1.384-1.444L18 6.657V2zM1 3h13v2H3v11h18v-4h2v6H1zm4 17h14v2H5z"
+                    />
+                  </svg>
+                </div>
+                <h3
+                  class="mb-2 text-xl font-bold text-gray-900 dark:text-white"
+                >
+                  Цифровая<br />
+                  трансформация
+                </h3>
+                <p class="text-gray-900 dark:text-gray-400">
+                  Цифровизация процессов планирования и управления
+                  строительством, кастомизация программных решений, организация
+                  IT-инфраструктуры, внедрение, а также организация обучающих
+                  мероприятий для сотрудников.
+                </p>
+
+                
+              </div>
+
+              <!-- Третья -->
+              <div class="mov-8 serv-3">
+                <div
+                  class="flex justify-center items-center mb-4 w-10 h-10 lg:h-12 lg:w-12"
+                >
+                  <svg
+                    class="icon-3 w-24 h-24 text-gray-400 lg:w-15 lg:h-15 dark:text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M2 2h12v8h8v12H2zm10 8V8H9v2zm-3 2v2h3v-2zm-2-2V8H4v2zm-3 2v2h3v-2zm0 4v4h8v-4zm10 4h2v-4h2v4h2v-8h-6zM4 6h3V4H4zm5-2v2h3V4z"
+                    />
+                  </svg>
+                </div>
+                <h3
+                  class="mb-2 text-xl font-bold text-gray-900 dark:text-white"
+                >
+                  Управление<br />
+                  строительством
+                </h3>
+                <p class="text-gray-900 dark:text-gray-400">
+                  Система организационных процессов и инструментов,
+                  обеспечивающих достижение ключевых показателей проекта –
+                  соответствие запланированным срокам и бюджету при соблюдении
+                  высокого уровня качества строительства.
+                </p>
+
+                
+              </div>
+
+              <!-- Четвертая -->
+              <div class="mov-9 serv-4">
+                <div
+                  class="flex justify-center items-center mb-4 w-10 h-10 lg:h-12 lg:w-12"
+                >
+                  <svg
+                    class="icon-4 w-24 h-24 text-gray-400 lg:w-15 lg:h-15 dark:text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M3 1h12.414L21 6.586V11h-2V9h-6V3H5v18h6v2H3zm12 2.414V7h3.586zm4 9.336v1.376c.715.184 1.352.56 1.854 1.072l1.193-.689l1 1.732l-1.192.688a4.008 4.008 0 0 1 0 2.142l1.192.688l-1 1.732l-1.193-.689A4 4 0 0 1 19 21.874v1.376h-2v-1.376a3.996 3.996 0 0 1-1.854-1.072l-1.193.689l-1-1.732l1.192-.688a4.004 4.004 0 0 1 0-2.142l-1.192-.688l1-1.732l1.193.688A3.996 3.996 0 0 1 17 14.127V12.75zm-2.751 4.283a1.991 1.991 0 0 0-.25.967c0 .35.091.68.25.967l.036.063a1.999 1.999 0 0 0 3.43 0l.036-.063A1.99 1.99 0 0 0 20 18c0-.35-.09-.68-.249-.967l-.036-.063a1.999 1.999 0 0 0-3.43 0z"
+                    />
+                  </svg>
+                </div>
+                <h3
+                  class="mb-2 text-xl font-bold text-gray-900 dark:text-white"
+                >
+                  Технический<br />
+                  заказчик
+                </h3>
+                <p class="text-gray-900 dark:text-gray-400">
+                  Обеспечение координации действий всех участников
+                  инвестиционно-строительного проекта, включая Инвестора,
+                  подрядчиков, поставщиков, а также согласующие инстанции, для
+                  достижения его технико-экономических и
+                  технико-эксплуатационных показателей.
+                </p>
+
+                
+              </div>
+
+              <!-- Пятая -->
+              <div class="mov-10 serv-5">
+                <div
+                  class="flex justify-center items-center mb-4 w-10 h-10 lg:h-12 lg:w-12"
+                >
+                  <svg
+                    class="icon-5 w-24 h-24 text-gray-400 lg:w-15 lg:h-15 dark:text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M9.18 1h5.64l.647 3.237a8.493 8.493 0 0 1 1.52.88l3.129-1.059l2.82 4.884l-2.481 2.18a8.577 8.577 0 0 1 0 1.756l2.48 2.18l-2.819 4.884l-3.129-1.058a8.497 8.497 0 0 1-1.52.879L14.819 23H9.18l-.647-3.237a8.496 8.496 0 0 1-1.52-.88l-3.129 1.059l-2.82-4.884l2.481-2.18a8.587 8.587 0 0 1 0-1.756l-2.48-2.18l2.82-4.884l3.128 1.058a8.492 8.492 0 0 1 1.52-.879zm1.64 2l-.542 2.705l-.525.193a6.492 6.492 0 0 0-1.912 1.106l-.43.359l-2.615-.885l-1.18 2.044l2.072 1.821l-.095.551a6.55 6.55 0 0 0 0 2.212l.095.55l-2.073 1.822l1.18 2.044l2.616-.885l.43.359a6.52 6.52 0 0 0 1.912 1.106l.525.193L10.82 21h2.36l.542-2.705l.525-.193a6.494 6.494 0 0 0 1.912-1.106l.43-.359l2.616.885l1.18-2.044l-2.072-1.821l.094-.551a6.552 6.552 0 0 0 0-2.212l-.094-.55l2.072-1.822l-1.18-2.044l-2.616.885l-.43-.359a6.49 6.49 0 0 0-1.912-1.106l-.525-.193L13.18 3zM12 9a3 3 0 1 0 0 6a3 3 0 0 0 0-6m-5 3a5 5 0 1 1 10 0a5 5 0 0 1-10 0"
+                    />
+                  </svg>
+                </div>
+                <h3
+                  class="mb-2 text-xl font-bold text-gray-900 dark:text-white"
+                >
+                  Строительный<br />
+                  контроль
+                </h3>
+                <p class="text-gray-900 dark:text-gray-400">
+                  Проверка работ на соответствие техническим решениям проектной
+                  и рабочей документации, результатам инженерных изысканий, а
+                  также отраслевым нормам для обеспечения безопасности,
+                  надежности и качества эксплуатационных условий объекта.
+                </p>
+
+                
+              </div>
+
+              <!-- Шестая -->
+              <div class="mov-11 serv-6">
+                <div
+                  class="flex justify-center items-center mb-4 w-10 h-10 lg:h-12 lg:w-12"
+                >
+                  <svg
+                    class="icon-6 w-24 h-24 text-gray-400 lg:w-15 lg:h-15 dark:text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M8 2v3h10V2h2v3h2v2h-2v8h2v2h-2v4h-2v-4h-2v-2h2V7H8v4H6V7H2V5h4V2zm6.58 8.419l-4.375 13.126l-3.008-5.743l-5.743-3.008zm-8.032 4.785l2.13 1.117l1.117 2.13l1.624-4.87z"
+                    />
+                  </svg>
+                </div>
+                <h3
+                  class="mb-2 text-xl font-bold text-gray-900 dark:text-white"
+                >
+                  Управление<br />
+                  обеспечением
+                </h3>
+                <p class="text-gray-900 dark:text-gray-400">
+                  Централизованный логистический цикл мобилизации техники,
+                  поставки оборудования, строительных материалов и кадров на
+                  лучших коммерческих условиях, гарантируя своевременность,
+                  надежность и качество снабжения проекта любого уровня
+                  сложности.
+                </p>
+
+               
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Секция Ценности -->
+        <section class="sec-4">
+          <div
+            class="corp-sec py-8 px-4 mx-auto max-w-screen-xl sm:py-10 lg:px-6"
+          >
+            <!-- Заголовок / Подзаголовок -->
+            <div class="rrr max-w-screen-md">
+              <button
+                class="mb-5 sec-title text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt">&nbsp;Наши&nbsp;ценности&nbsp;</span>
+                <span aria-hidden="true" class="hover-textt-4"
+                  >&nbsp;Наши&nbsp;ценности&nbsp;</span
+                >
+              </button>
+
+              <p class="dark:hidden font-semibold text-gray-800 sm:text-xl">
+                Формируем в инвестиционно-строительном секторе новую
+                функциональную парадигму, основанную на принципах прозрачности,
+                предсказуемости и ответственности, задающую высокие стандарты
+                управления проектами и их ключевыми показателями.
+              </p>
+
+              <p class="hidden dark:block sm:text-xl text-gray-400">
+                Формируем в инвестиционно-строительном секторе новую
+                функциональную парадигму, основанную на принципах прозрачности,
+                предсказуемости и ответственности, задающую высокие стандарты
+                управления проектами и их ключевыми показателями.
+              </p>
+            </div>
+
+            <!-- Сетка ценностей -->
+            <div class="block-3 flex gap-16 justify-center">
+              <!-- Первая -->
+              <div class="mov-12 aaa flex">
+                <svg
+                  id="icon1"
+                  class="w-24 h-24 text-gray-700 lg:w-15 lg:h-15 dark:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 8.75v1.376c.715.184 1.352.56 1.854 1.072l1.193-.689l1 1.732l-1.192.688a4.008 4.008 0 0 1 0 2.142l1.192.688l-1 1.732l-1.193-.689A4 4 0 0 1 20 22.874v1.376h-2v-1.376a3.996 3.996 0 0 1-1.854-1.072l-1.193.689l-1-1.732l1.192-.688a4.004 4.004 0 0 1 0-2.142l-1.192-.688l1-1.732l1.193.689A3.996 3.996 0 0 1 18 15.126V13.75zm-2.751 4.283a1.991 1.991 0 0 0-.25.967c0 .35.091.68.25.967l.036.063a1.999 1.999 0 0 0 3.43 0l.036-.063A1.99 1.99 0 0 0 21 19c0-.35-.09-.68-.249-.967l-.036-.063a1.999 1.999 0 0 0-3.43 0z"
+                  />
+                </svg>
+
+                <div
+                  class="lll bg-gray-600 dark:bg-gray-700 border border-gray-500 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+                  <p class="ftext text-white dark:text-gray-100">
+                    Мы постоянно становимся лучше, непрерывно повышая уровень
+                    профессиональных компетенций и квалификацию наших
+                    специалистов, осваивая новые технологии и расширяя горизонты
+                    эффективности для своих клиентов.
+                  </p>
+                </div>
+                <div
+                  class="mmm bg-gray-400 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+
+                  <!-- <svg class="arrow-card dark:text-gray-600 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m5.586 16.5l4.5-4.5l-4.5-4.5L7 6.086L12.914 12L7 17.914zm6.5 0l4.5-4.5l-4.5-4.5L13.5 6.086L19.414 12L13.5 17.914z"/></svg> -->
+
+                  <p class="btext text-gray-800 dark:text-gray-100">
+                    Компетенции
+                  </p>
+                </div>
+              </div>
+
+              <!-- Вторая -->
+              <div class="aaa flex">
+                <svg
+                  id="icon1"
+                  class="w-24 h-24 text-gray-700 lg:w-15 lg:h-15 dark:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  ">
+                  <path
+                    fill="currentColor"
+                    d="M7 1h10v2h4v8h-2V5h-2v2H7V5H5v16h7.5v2H3V3h4zm2 4h6V3H9zm5.75 7.996h8.5v10.295l-4.247-2.617l-4.253 2.615zm2 2v4.715l2.254-1.385l2.246 1.383v-4.713z"
+                  />
+                </svg>
+
+                <div
+                  class="lll bg-gray-600 dark:bg-gray-700 border border-gray-500 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+                  <p class="ftext text-white dark:text-gray-100">
+                    Мы продуктивно трансформируем собственный опыт и глубокую
+                    отраслевую экспертизу, успешные мировые практики и
+                    профессиональную объективность в наивысший уровень качества
+                    реализуемых проектов.
+                  </p>
+                </div>
+                <div
+                  class="mmm bg-gray-400 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+
+                  <!-- <svg class="arrow-card dark:text-gray-600 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m5.586 16.5l4.5-4.5l-4.5-4.5L7 6.086L12.914 12L7 17.914zm6.5 0l4.5-4.5l-4.5-4.5L13.5 6.086L19.414 12L13.5 17.914z"/></svg> -->
+
+                  <p class="btext text-gray-800 dark:text-gray-100">Качество</p>
+                </div>
+              </div>
+
+              <!-- Третья -->
+              <div class="mov-13 aaa flex">
+                <svg
+                  id="icon1"
+                  class="w-24 h-24 text-gray-700 lg:w-15 lg:h-15 dark:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 1H7v2H3v20h7v-2H5V5h2v2h10V5h2v8h2V3h-4zm-2 4H9V3h6zm.75 15v-2h2.5v2z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M17.002 23.5c4.419 0 6.09-4.5 6.09-4.5s-1.673-4.5-6.09-4.5c-4.416 0-6.09 4.5-6.09 4.5s1.672 4.5 6.09 4.5m-.002-2c-2.615 0-3.87-2.5-3.87-2.5s1.25-2.5 3.87-2.5c2.621 0 3.87 2.5 3.87 2.5s-1.254 2.5-3.87 2.5"
+                  />
+                </svg>
+
+                <div
+                  class="lll bg-gray-600 dark:bg-gray-700 border border-gray-500 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+                  <p class="ftext text-white dark:text-gray-100">
+                    Мы принципиально сохраняем верность традициям делового
+                    этикета и принятым на себя корпоративным обязательствам,
+                    непредвзято концентрируя фокус собственной деятельности
+                    исключительно на интересах клиента.
+                  </p>
+                </div>
+                <div
+                  class="mmm bg-gray-400 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+
+                  <!-- <svg class="arrow-card dark:text-gray-600 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m5.586 16.5l4.5-4.5l-4.5-4.5L7 6.086L12.914 12L7 17.914zm6.5 0l4.5-4.5l-4.5-4.5L13.5 6.086L19.414 12L13.5 17.914z"/></svg> -->
+
+                  <p class="btext text-gray-800 dark:text-gray-100">Этика</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Секция Команда -->
+        <section class="sec-5">
+          <div
+            class="mb-10 py-8 px-4 mx-auto max-w-screen-xl lg:py-14 lg:px-6 -my-10"
+          >
+            <div class="dark:hidden mov-24l flex absolute w-96 z-0">
+              <img src="./media/logo-dark-01.svg" alt="" />
+            </div>
+
+            <div class="hidden dark:block mov-24 absolute w-96 z-0">
+              <img src="./media/logo.svg" alt="" />
+            </div>
+
+            <!-- Заголовок / Подзаголовок -->
+            <div class="max-w-screen-md">
+              <button
+                class="mb-5 sec-title text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt"
+                  >&nbsp;Команда&nbsp;ICPexpert&nbsp;</span
+                >
+                <span aria-hidden="true" class="hover-textt-5"
+                  >&nbsp;Команда&nbsp;ICPexpert&nbsp;</span
+                >
+              </button>
+
+              <p class="dark:hidden font-semibold text-gray-800 sm:text-xl">
+                Глубокая отраслевая экспертиза и уникальный опыт наших
+                сотрудников позволяют обеспечивать стабильно высокий уровень
+                профессионализма в реализуемых проектах
+              </p>
+
+              <p class="hidden dark:block font-light sm:text-xl text-gray-400">
+                Глубокая отраслевая экспертиза и уникальный опыт наших
+                сотрудников позволяют обеспечивать стабильно высокий уровень
+                профессионализма в реализуемых проектах
+              </p>
+            </div>
+
+            <!-- Сетка команды -->
+            <div class="team-1 grid gap-8 mb-6 lg:mb-16 md:grid-cols-3">
+              <!-- Первый -->
+              <div
+                class="flock3 border border-gray-500 dark:border-gray-700 dark:bg-gray-800 bg-gray-600"
+              >
+                <div class="dot"></div>
+                <p class="text-white dark:text-white" id="text3">
+                  Эксперт
+                </p>
+                <ul class="team-social flex space-x-4 sm:mt-0">
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+                <div class="flam3 border border-gray-500 dark:border-gray-500">
+                  <div class="inside text-white">
+                    <p>Георгий<br />Киреев</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Второй -->
+              <div
+                class="flock3 border border-gray-500 dark:border-gray-700 dark:bg-gray-800 bg-gray-600"
+              >
+                <div class="dot"></div>
+                <p class="text-white dark:text-white" id="text3">
+                  Эксперт
+                </p>
+                <ul class="team-social flex space-x-4 sm:mt-0">
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+                <div class="flam4 border border-gray-500 dark:border-gray-500">
+                  <div class="inside text-white">
+                    <p>
+                      Максим<br />
+                      Гришин
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Третий -->
+              <div
+                class="flock3 border border-gray-500 dark:border-gray-700 dark:bg-gray-800 bg-gray-600"
+              >
+                <div class="dot"></div>
+                <p class="text-white dark:text-white" id="text3">
+                  Эксперт
+                </p>
+                <ul class="team-social flex space-x-4 sm:mt-0">
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+                <div class="flam5 border border-gray-500 dark:border-gray-500">
+                  <div class="inside text-white">
+                    <p>Николай<br />Пирогов</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Четвертый -->
+              <div
+                class="flock3 border border-gray-500 dark:border-gray-700 dark:bg-gray-800 bg-gray-600"
+              >
+                <div class="dot"></div>
+                <p class="text-white dark:text-white" id="text3">
+                  Эксперт
+                </p>
+                <ul class="team-social flex space-x-4 sm:mt-0">
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+                <div class="flam6 border border-gray-500 dark:border-gray-500">
+                  <div class="inside text-white">
+                    <p>Наталья<br />Князева</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Пятый -->
+              <div
+                class="flock3 border border-gray-500 dark:border-gray-700 dark:bg-gray-800 bg-gray-600"
+              >
+                <div class="dot"></div>
+                <p class="text-white dark:text-white" id="text3">
+                  Эксперт
+                </p>
+                <ul class="team-social flex space-x-4 sm:mt-0">
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+                <div class="flam7 border border-gray-500 dark:border-gray-500">
+                  <div class="inside text-white">
+                    <p>
+                      Андрей<br />
+                      Никитин
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Шестой -->
+              <div
+                class="flock3 border border-gray-500 dark:border-gray-700 dark:bg-gray-800 bg-gray-600"
+              >
+                <div class="dot"></div>
+                <p class="text-white dark:text-white" id="text3">
+                  Эксперт
+                </p>
+                <ul class="team-social flex space-x-4 sm:mt-0">
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="text-gray-400 hover:text-white dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+                <div class="flam8 border border-gray-500 dark:border-gray-500">
+                  <div class="inside text-white">
+                    <p>
+                      Артем<br />
+                      Привалов
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Карусель логотипов -->
+        <section
+          class="border border-gray-500 dark:border-gray-700 slide-logo sec-6 bg-gray-800 dark:bg-gray-800"
+        >
+          <!-- Заголовок -->
+          <div class="max-w-screen-xl mx-auto px-4 pb-5">
+            <button
+              class="mt-10 sec-title text-white dark:text-white"
+              data-text="Awesome"
+            >
+              <span class="actual-textt">&nbsp;Нам&nbsp;доверяют&nbsp;</span>
+              <span aria-hidden="true" class="hover-textt-6"
+                >&nbsp;Нам&nbsp;доверяют&nbsp;</span
+              >
+            </button>
+          </div>
+
+           <!-- Сетка логотипов -->
+           <div class="carousel max-w-screen-xl mx-auto" id="carousel" role="region" aria-label="Logo Carousel">
+            <div class="carousel-container" id="carouselContainer" role="list">
+              <div class="carousel-item" role="listitem">
+                <img src="/media/metabo-01.svg" alt="">
+              </div>
+
+              <div class="carousel-item" role="listitem">
+                <img src="/media/volma-01.svg" alt="">
+              </div>
+
+              <div class="carousel-item" role="listitem">
+                <img src="/media/archin-01.svg" alt="">
+              </div>
+
+              <div class="carousel-item" role="listitem">
+                <img src="/media/stoiver-01.svg" alt="">
+              </div>
+
+              <div class="carousel-item" role="listitem">
+                <img src="/media/kaleta-01.svg" alt="">
+              </div>
+
+              <div class="carousel-item" role="listitem">
+                <img src="/media/unimix-01.svg" alt="">
+              </div>
+
+              <div class="carousel-item" role="listitem">
+                <img src="/media/pft-01.svg" alt="">
+              </div>
+
+              <div class="carousel-item" role="listitem">
+                <img src="/media/knauf-01.svg" alt="">
+              </div>
+
+              <div class="carousel-item" role="listitem">
+                <img src="/media/serta-01.svg" alt="">
+              </div>
+
+              <div class="carousel-item" role="listitem">
+                <img src="/media/mopu-01.svg" alt="">
+              </div>
+            </div>
+        </div>
+        </section>
+
+        <!-- Секция Конференция -->
+        <section class="sec-1">
+          <div
+            class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6 my-10"
+          >
+            <img
+              class="pic-2 w-full dark:hidden border border-gray-700"
+              src="/media/777.webp"
+              alt="dashboard image"
+            />
+            <img
+              class="pic-2 w-full hidden dark:block"
+              src="/media/777.webp"
+              alt="dashboard image"
+            />
+            <div class="mt-4 md:mt-0">
+              <button
+                class="mb-5 sec-title text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt"
+                  >&nbsp;Онлайн&nbsp;конференция&nbsp;</span
+                >
+                <span aria-hidden="true" class="hover-textt"
+                  >&nbsp;Онлайн&nbsp;конференция&nbsp;</span
+                >
+              </button>
+
+              <p class="dark:hidden mb-6 font-medium text-gray-800 md:text-lg">
+                22 сентября в 10:00 пройдет очередная онлайн конференция,
+                посвященная внедрению методологии Прогрессивного пакетирования
+                работ (Advanced Work Packaging). Встреча будет интересна
+                компаниям, реализующим инвестиционно-строительные проекты, а
+                также инвесторам.
+              </p>
+
+              <p
+                class="hidden dark:block mb-6 font-light md:text-lg text-gray-400"
+              >
+                24 декабря в 10:00 пройдет очередная онлайн конференция,
+                посвященная внедрению методологии Прогрессивного пакетирования
+                работ (Advanced Work Packaging). Встреча будет интересна
+                компаниям, реализующим инвестиционно-строительные проекты, а
+                также инвесторам.
+              </p>
+
+              <form action="awp.html">
+                <button type="submit" class="dark:hidden button-l mt-10">
+                  <span class="button_lg-l">
+                    <span class="button_sl-l"></span>
+                    <span class="button_text-l btn-shine">Подробнее</span>
+                  </span>
+                </button>
+              </form>
+              
+              <form action="awp.html">
+                <button type="submit" class="hidden dark:block button mt-10">
+                  <span class="button_lg">
+                    <span class="button_sl"></span>
+                    <span class="button_text btn-shine">Подробнее</span>
+                  </span>
+                </button>
+              </form>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Секция Преимущества -->
+        <section class="sec-7">
+          <div class="px-4 mx-auto max-w-screen-xl">
+            <!-- Заголовок / Подзаголовок -->
+            <div class="max-w-screen-md mb-8 lg:mb-10">
+              <button
+                class="mb-5 sec-title text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt">&nbsp;Почему мы&nbsp;</span>
+                <span aria-hidden="true" class="hover-textt-7"
+                  >&nbsp;Почему&nbsp;мы&nbsp;</span
+                >
+              </button>
+
+              <p class="dark:hidden text-gray-800 sm:text-xl font-semibold">
+                Компания располагает достаточными профессиональными качествами,
+                обеспечивающими стабильно высокие результаты в реализуемых
+                проектах.
+              </p>
+
+              <p class="hidden dark:block sm:text-xl text-gray-400 font-light">
+                Компания располагает достаточными профессиональными качествами,
+                обеспечивающими стабильно высокие результаты в реализуемых
+                проектах.
+              </p>
+            </div>
+
+            <!-- Сетка преимуществ -->
+            <div class="block-3 flex gap-16 justify-center">
+              <!-- Первое -->
+              <div class="mov-14 aaa flex">
+                <svg
+                  id="icon1"
+                  class="w-24 h-24 text-gray-700 lg:w-15 lg:h-15 dark:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M7 5a3 3 0 0 0 0 6v2a5 5 0 0 0-5 5v4H0v-4a7 7 0 0 1 3.75-6.2A5 5 0 0 1 7 3h1v2a4.992 4.992 0 0 1 4-2a4.99 4.99 0 0 1 4 2V3h1a5 5 0 0 1 3.25 8.8A7 7 0 0 1 24 18v4h-2v-4a5 5 0 0 0-5-5v-2a3 3 0 1 0 0-6h-1a5 5 0 1 1-8 0zm5 0a3 3 0 1 0 0 6a3 3 0 0 0 0-6M4 19a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v3H4zm5-3a3 3 0 0 0-3 3v1h12v-1a3 3 0 0 0-3-3z"
+                  />
+                </svg>
+
+                <div
+                  class="lll bg-slate-600 dark:bg-slate-700 border border-gray-500 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+                  <p class="ftext text-white dark:text-gray-100">
+                    Слаженная годами команда специалистов ICPexpert располагает
+                    глубокой профильной экспертизой в сферах присутствия
+                    компании и гарантирует наилучший результат в достижении
+                    поставленных целей.
+                  </p>
+                </div>
+                <div
+                  class="mmm bg-slate-400 dark:bg-slate-800 border border-gray-200 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+
+                  <!-- <svg class="arrow-card dark:text-gray-600 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m5.586 16.5l4.5-4.5l-4.5-4.5L7 6.086L12.914 12L7 17.914zm6.5 0l4.5-4.5l-4.5-4.5L13.5 6.086L19.414 12L13.5 17.914z"/></svg> -->
+
+                  <p class="btext text-gray-800 dark:text-gray-100">
+                    Команда профессионалов
+                  </p>
+                </div>
+              </div>
+
+              <!-- Второе -->
+              <div class="aaa flex">
+                <svg
+                  id="icon1"
+                  class="w-24 h-24 text-gray-700 lg:w-15 lg:h-15 dark:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  ">
+                  <path
+                    fill="currentColor"
+                    d="M12 3a9 9 0 0 0-4.5 16.796l.865.5l-1.001 1.732l-.866-.5A10.996 10.996 0 0 1 1 12C1 5.925 5.925 1 12 1c1.203 0 2.362.193 3.448.552l.95.313l-.627 1.9l-.95-.314A8.991 8.991 0 0 0 12 3m8.981 1.414l-5.542 5.542a4 4 0 1 1-1.42-1.41L19.567 3zm1.154 3.188l.313.95C22.807 9.638 23 10.797 23 12c0 4.071-2.212 7.625-5.496 9.526l-.865.5l-1.002-1.73l.865-.501A8.996 8.996 0 0 0 21 12a8.99 8.99 0 0 0-.45-2.822l-.314-.95zM12 10a2 2 0 1 0 0 4a2 2 0 0 0 0-4"
+                  />
+                </svg>
+
+                <div
+                  class="lll bg-slate-600 dark:bg-slate-700 border border-gray-500 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+                  <p class="ftext text-white dark:text-gray-100">
+                    Уникальные опыт и знания в области управления строительными
+                    проектами, основанные на применении лучших мировых практик,
+                    обеспечивают достижение высокого уровеня ключевых
+                    показателей проекта.
+                  </p>
+                </div>
+                <div
+                  class="mmm bg-slate-400 dark:bg-slate-800 border border-gray-200 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+
+                  <!-- <svg class="arrow-card dark:text-gray-600 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m5.586 16.5l4.5-4.5l-4.5-4.5L7 6.086L12.914 12L7 17.914zm6.5 0l4.5-4.5l-4.5-4.5L13.5 6.086L19.414 12L13.5 17.914z"/></svg> -->
+
+                  <p class="btext text-gray-800 dark:text-gray-100">
+                    Передовые практики
+                  </p>
+                </div>
+              </div>
+
+              <!-- Третье -->
+              <div class="mov-15 aaa flex">
+                <svg
+                  id="icon1"
+                  class="w-24 h-24 text-gray-700 lg:w-15 lg:h-15 dark:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="m9 1.586l3 3l3-3l8.914 8.914L12 22.414L.086 10.5zM10.586 6L9 4.414L2.914 10.5L12 19.586l.954-.954l-2.368-2.369L12 14.85l2.368 2.369l.955-.955l-2.369-2.368l1.414-1.414l2.369 2.368l1.349-1.349L15 10.414l-3 3L7.586 9zm8.914 6.086l1.586-1.586L15 4.414L10.414 9L12 10.586l3-3z"
+                  />
+                </svg>
+
+                <div
+                  class="lll bg-slate-600 dark:bg-slate-700 border border-gray-500 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+                  <p class="ftext text-white dark:text-gray-100">
+                    Пул проверенных партнерских компаний, понимающих цену
+                    отношений и деловой репутации, сотрудничают на лояльных
+                    коммерческих условиях, существенно влияющих на
+                    ценообразование в ICPexpert.
+                  </p>
+                </div>
+                <div
+                  class="mmm bg-slate-400 dark:bg-slate-800 border border-gray-200 dark:border-gray-700"
+                >
+                  <div class="dot"></div>
+
+                  <!-- <svg class="arrow-card dark:text-gray-600 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m5.586 16.5l4.5-4.5l-4.5-4.5L7 6.086L12.914 12L7 17.914zm6.5 0l4.5-4.5l-4.5-4.5L13.5 6.086L19.414 12L13.5 17.914z"/></svg> -->
+
+                  <p class="btext text-gray-800 dark:text-gray-100">
+                    Надежные партнеры
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Секция Новости -->
+        <section class="sec-8">
+          <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 mt-10">
+            <!-- Заголовок / Подзаголовок -->
+            <div class="max-w-screen-md text-left lg:mb-10 mb-8">
+              <button
+                class="mb-5 sec-title text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt">&nbsp;Новости&nbsp;</span>
+                <span aria-hidden="true" class="hover-textt-8"
+                  >&nbsp;Новости&nbsp;</span
+                >
+              </button>
+
+              <p class="dark:hidden font-semibold text-gray-800 sm:text-xl">
+                Корпоративные и отраслевые события
+              </p>
+
+              <p class="hidden dark:block font-light sm:text-xl text-gray-400">
+                Корпоративные и отраслевые события
+              </p>
+            </div>
+
+            <!-- Сетка новостей -->
+            <div class="grid gap-8 lg:grid-cols-3">
+              <!-- Первая новость -->
+              <article
+                class="news p-6 bg-slate-400 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-gray-700"
+              >
+                <div class="news-pic mb-4"><img src="/media/31-01.webp" /></div>
+                <div
+                  class="flex justify-between items-center mb-5 text-gray-500"
+                >
+                  <span
+                    class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800"
+                  >
+                  <svg
+                  class="mr-1 w-3 h-3"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
+                    clip-rule="evenodd"
+                  ></path>
+                  <path
+                    d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"
+                  ></path>
+                </svg>
+                    Жилье
+                  </span>
+                  <span class="text-sm">17 октября 2024</span>
+                </div>
+                <h2
+                  class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                >
+                  <a href="#"
+                    >Объем строительства в России в этом году вырос почти на 3%</a
+                  >
+                </h2>
+                <p class="mb-5 font-light text-gray-900 dark:text-gray-400">
+                  Объем строительства в России с начала года вырос почти на 3%, за девять месяцев введено в строй порядка 81 миллиона квадратных метров жилья, сообщил вице-премьер РФ Марат Хуснуллин.
+                </p>
+
+                <form action="news-06.html">
+                  <button type="submit" class="dark:hidden button-l mt-5">
+                    <span class="button_lg-l">
+                      <span class="button_sl-l"></span>
+                      <span class="button_text-l btn-shine">Читать дальше</span>
+                    </span>
+                  </button>
+                </form>
+                
+                <form action="news-06.html">
+                  <button type="submit" class="hidden dark:block button-s mt-5">
+                    <span class="button_lg-s">
+                      <span class="button_sl-s"></span>
+                      <span class="button_text btn-shine">Читать дальше</span>
+                    </span>
+                  </button>
+                </form>
+                
+              </article>
+
+              <!-- Вторая новость -->
+              <article
+                class="news p-6 bg-slate-400 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-gray-700"
+              >
+                <div class="news-pic mb-4"><img src="/media/32-01.webp" /></div>
+                <div
+                  class="flex justify-between items-center mb-5 text-gray-500"
+                >
+                  <span
+                    class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800"
+                  >
+                    <svg
+                      class="mr-1 w-3 h-3"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
+                        clip-rule="evenodd"
+                      ></path>
+                      <path
+                        d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"
+                      ></path>
+                    </svg>
+                    Жилье
+                  </span>
+                  <span class="text-sm">08 октября 2024</span>
+                </div>
+                <h2
+                  class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                >
+                  <a href="#"
+                    >В Москве с начала года разрешили построить более 8 млн кв. м. жилья</a
+                  >
+                </h2>
+                <p class="mb-5 font-light text-gray-900 dark:text-gray-400">
+                  В Москве с начала года выданы разрешения на строительство почти 11,3 миллиона квадратных метров недвижимости, в том числе 8,2 миллионов "квадратов" жилья, сообщил Мосгосстройнадзор.
+                </p>
+
+                <form action="news-05.html">
+                  <button type="submit" class="dark:hidden button-l mt-5">
+                    <span class="button_lg-l">
+                      <span class="button_sl-l"></span>
+                      <span class="button_text-l btn-shine">Читать дальше</span>
+                    </span>
+                  </button>
+                </form>
+                
+                <form action="news-05.html">
+                  <button type="submit" class="hidden dark:block button-s mt-5">
+                    <span class="button_lg-s">
+                      <span class="button_sl-s"></span>
+                      <span class="button_text btn-shine">Читать дальше</span>
+                    </span>
+                  </button>
+                </form>
+              </article>
+
+              <!-- Третья новость -->
+              <article
+                class="news p-6 bg-slate-400 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-gray-700"
+              >
+                <div class="news-pic mb-4"><img src="/media/33-01.webp" /></div>
+                <div
+                  class="flex justify-between items-center mb-5 text-gray-500"
+                >
+                  <span
+                    class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800"
+                  >
+                  <svg
+                  class="mr-1 w-3 h-3"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
+                    clip-rule="evenodd"
+                  ></path>
+                  <path
+                    d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"
+                  ></path>
+                </svg>
+                    Жилье
+                  </span>
+                  <span class="text-sm">02 октября 2024</span>
+                </div>
+                <h2
+                  class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                >
+                  <a href="#"
+                    >Градостроительный потенциал КРТ составляет 200 млн "квадратов"</a
+                  >
+                </h2>
+                <p class="mb-5 font-light text-gray-900 dark:text-gray-400">
+                  Градостроительный потенциал по проектам комплексного развития территорий (КРТ) составляет более 200 миллионов кв. м., сообщил первый заместитель министра строительства и ЖКХ РФ Александр Ломакин.
+                </p>
+
+                <form action="news-04.html">
+                  <button type="submit" class="dark:hidden button-l mt-5">
+                    <span class="button_lg-l">
+                      <span class="button_sl-l"></span>
+                      <span class="button_text-l btn-shine">Читать дальше</span>
+                    </span>
+                  </button>
+                </form>
+                
+                <form action="news-04.html">
+                  <button type="submit" class="hidden dark:block button-s mt-5">
+                    <span class="button_lg-s">
+                      <span class="button_sl-s"></span>
+                      <span class="button_text btn-shine">Читать дальше</span>
+                    </span>
+                  </button>
+                </form>
+
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- Секция формы подписки на новости -->
+        <section class="sec-9">
+          <div class="px-4 mx-auto max-w-screen-xl pb-16 lg:px-6">
+            <div class="mx-auto max-w-screen-md sm:text-center">
+              <p
+                class="dark:hidden mx-auto mb-4 max-w-4xl font-semibold text-gray-800 md:mb-4 sm:text-[17px]"
+              >
+                Подпишись на наши новости, чтобы оставаться в курсе
+                корпоративной хроники ICPexpert, а также актуальных тенденций и
+                трендов строительного сектора
+              </p>
+
+              <p
+                class="hidden dark:block mx-auto mb-4 max-w-4xl font-light md:mb-4 sm:text-lg dark:text-gray-100"
+              >
+                Подпишись на наши новости, чтобы оставаться в курсе
+                корпоративной хроники ICPexpert, а также актуальных тенденций и
+                трендов строительного сектора
+              </p>
+
+              <!-- Форма -->
+              <form action="#">
+                <div
+                  class="items-center mx-auto space-y-4 max-w-screen-sm sm:flex sm:space-y-0"
+                >
+                  <div class="form relative w-full">
+                    <label
+                      for="email"
+                      class="hidden mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >Email address</label
+                    >
+                    <div
+                      class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+                    >
+                      <svg
+                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+                        ></path>
+                        <path
+                          d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+                        ></path>
+                      </svg>
+                    </div>
+
+                    <input
+                      class="mail-form block pl-10 w-full text-sm text-gray-900 dark:text-white bg-slate-300 dark:bg-slate-700 border border-gray-400 dark:border-gray-600 sm:rounded-none sm:rounded-l-lg"
+                      placeholder="Введите свою почту"
+                      type="email"
+                      id="email"
+                      required=""
+                    />
+                  </div>
+                  <div>
+                    <button class="form dark:hidden button-l mt-5">
+                      <span class="button_lg-l">
+                        <span class="button_sl-l"></span>
+                        <span class="button_text-l btn-shine">Подписаться</span>
+                      </span>
+                    </button>
+
+                    <button class="form hidden dark:block button mt-5">
+                      <span class="button_lg">
+                        <span class="button_sl"></span>
+                        <span class="button_text btn-shine">Подписаться</span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="mx-auto max-w-screen-sm text-sm text-center text-gray-800 newsletter-form-footer dark:text-gray-300"
+                >
+                  Мы заботимся о Ваших персональных данных.
+                  <a
+                    href="#"
+                    class="font-bold text-primary-600 dark:text-primary-500 text-yell"
+                    >Политика конфиденциальности</a
+                  >.
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Секция Галерея -->
+        <section class="sec-10">
+          <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <!-- Заголовок / Подзаголовок -->
+            <div class="max-w-screen-md text-left lg:mb-16 mb-10">
+              <button
+                class="mb-5 sec-title text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt"
+                  >&nbsp;Корпоративная&nbsp;галерея&nbsp;</span
+                >
+                <span aria-hidden="true" class="hover-textt-10"
+                  >&nbsp;Корпоративная&nbsp;галерея&nbsp;</span
+                >
+              </button>
+
+              <p class="dark:hidden font-semibold text-gray-800 sm:text-xl">
+                Фото с проектов и мероприятий ICPexpert
+              </p>
+
+              <p class="hidden dark:block font-light sm:text-xl text-gray-400">
+                Фото с проектов и мероприятий ICPexpert
+              </p>
+            </div>
+
+            <!-- Слайдер фото -->
+            <div class="flex justify-center mt-10">
+              <div class="items">
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/1.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/2.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/3.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/4.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/5.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/6.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/7.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/8.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/9.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/10.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/11.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/12.webp)"
+                ></div>
+                <div
+                  class="item"
+                  tabindex="0"
+                  style="background-image: url(/media/13.webp)"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Секция формы обратной связи -->
+        <section class="sec-11 message-sec">
+          <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+            <!-- Заголовок -->
+            <button
+              class="sec-title mb-8 lg:mb-10 text-gray-800 dark:text-white"
+              data-text="Awesome"
+            >
+              <span class="actual-textt">&nbsp;Напишите&nbsp;нам&nbsp;</span>
+              <span aria-hidden="true" class="hover-textt-11"
+                >&nbsp;Напишите&nbsp;нам&nbsp;</span
+              >
+            </button>
+
+            <!-- Форма обратной связи -->
+            <form action="#" class="space-y-8">
+              <div class="form">
+                <input
+                  type="text"
+                  id="text"
+                  class="shadow-sm bg-slate-300 border border-gray-400 text-white text-sm block w-full p-2.5 dark:bg-slate-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:shadow-sm-light"
+                  placeholder="Имя"
+                  required
+                />
+              </div>
+              <div class="form">
+                <input
+                  type="email"
+                  id="email"
+                  class="block p-3 w-full text-sm text-white bg-slate-300 border border-gray-400 shadow-sm dark:bg-slate-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:shadow-sm-light"
+                  placeholder="Почта"
+                  required
+                />
+              </div>
+              <div class="form sm:col-span-2">
+                <textarea
+                  id="message"
+                  rows="6"
+                  class="block p-2.5 w-full text-sm text-white bg-slate-300 shadow-sm border border-gray-400 dark:bg-slate-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                  placeholder="Сообщение"
+                ></textarea>
+              </div>
+
+              <button class="form dark:hidden button-l mt-10">
+                <span class="button_lg-l">
+                  <span class="button_sl-l"></span>
+                  <span class="button_text-l btn-shine">Отправить</span>
+                </span>
+              </button>
+
+              <button class="form hidden dark:block button mt-10">
+                <span class="button_lg">
+                  <span class="button_sl"></span>
+                  <span class="button_text btn-shine">Отправить</span>
+                </span>
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Секция Карта -->
+        <section class="sec-12">
+          <div class="max-w-screen-xl py-8 lg:py-16 mx-auto px-4">
+            <div class="dark:hidden mov-25l flex absolute w-96 z-0">
+              <img src="./media/logo-dark-01.svg" alt="" />
+            </div>
+
+            <div class="hidden dark:block mov-25 absolute w-96 z-0">
+              <img src="./media/logo.svg" alt="" />
+            </div>
+
+            <!-- Заголовок -->
+            <div class="max-w-screen-md">
+              <button
+                class="sec-title mb-8 lg:mb-10 text-gray-800 dark:text-white"
+                data-text="Awesome"
+              >
+                <span class="actual-textt"
+                  >&nbsp;Как&nbsp;нас&nbsp;найти&nbsp;</span
+                >
+                <span aria-hidden="true" class="hover-textt-12"
+                  >&nbsp;Как&nbsp;нас&nbsp;найти&nbsp;</span
+                >
+              </button>
+            </div>
+
+            <!-- Карта -->
+            <div id="map" class="map flex bg-white dark:bg-gray-600 mb-8"></div>
+
+            <p
+              class="dark:hidden mx-auto mb-4 max-w-6xl font-semibold text-gray-800 md:mb-4 sm:text-lg"
+            >
+              344082, г. Ростов-на-Дону, ул. Красноармейская, д. 20 оф. 5
+            </p>
+
+            <p
+              class="hidden dark:block mx-auto mb-4 max-w-6xl font-light text-gray-800 md:mb-4 sm:text-lg dark:text-gray-100"
+            >
+              344082, г. Ростов-на-Дону, ул. Красноармейская, д. 20 оф. 5
+            </p>
+          </div>
+        </section>
+
+        <!-- Футер -->
+        <footer
+          class="form flex p-4 bg-slate-400 md:p-8 lg:p-10 dark:bg-slate-800 border border-gray-500 dark:border-gray-700"
+        >
+          <div
+            class="flex flex-col justify-center items-center mx-auto max-w-screen-xl text-center"
+          >
+            <!-- Логотип -->
+
+            <img
+              src="/media/logo-dark-01.svg"
+              class="dark:hidden mr-3 h-20 sm:h-2 mb-4 mt-5"
+            />
+
+            <img
+              src="/media/logo.svg"
+              class="hidden dark:block mr-3 h-20 mb-4 mt-5"
+            />
+
+            <!-- Слоган -->
+            <p class="mb-10 text-xl text-gray-900 dark:text-gray-400">
+              Инжиниринг в строительном секторе
+            </p>
+
+            <!-- Навигация -->
+            <ul
+              class="flex flex-wrap justify-center items-center mb-10 text-gray-900 dark:text-white gap-8"
+            >
+              <li>
+                <a href="about.html" class="mr-4 text-yell md:mr-6">Компания</a>
+              </li>
+              <li>
+                <a href="service.html" class="mr-4 text-yell md:mr-6">Услуги</a>
+              </li>
+              <li>
+                <a href="awp.html" class="mr-4 text-yell md:mr-6">AWP</a>
+              </li>
+              <li>
+                <a href="news.html" class="mr-4 text-yell md:mr-6">Новости</a>
+              </li>
+              <li>
+                <a href="carier.html" class="mr-4 text-yell md:mr-6">Карьера</a>
+              </li>
+              <li>
+                <a href="contacts.html" class="mr-4 text-yell md:mr-6">Контакты</a>
+              </li>
+            </ul>
+
+            <!-- Сетка иконок соцсетей -->
+            <div class="social-card">
+              <!-- Первая -->
+              <a href="#" class="socialContainer containerOne">
+                <svg class="socialSvg instagramSvg" viewBox="0 0 16 16">
+                  <path
+                    d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"
+                  ></path>
+                </svg>
+              </a>
+
+              <!-- Вторая -->
+              <a href="#" class="socialContainer containerTwo">
+                <svg class="socialSvg twitterSvg" viewBox="0 0 16 16">
+                  <path
+                    d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
+                  ></path>
+                </svg>
+              </a>
+
+              <!-- Третья -->
+              <a href="#" class="socialContainer containerThree">
+                <svg class="socialSvg linkdinSvg" viewBox="0 0 448 512">
+                  <path
+                    d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                  ></path>
+                </svg>
+              </a>
+
+              <!-- Четвертая -->
+              <a href="#" class="socialContainer containerFour">
+                <svg class="socialSvg whatsappSvg" viewBox="0 0 16 16">
+                  <path
+                    d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+
+            <span
+              class="text-sm sm:text-center text-gray-800 dark:text-gray-400"
+              >© 2024 <a href="#" class="hover:underline">ICPexpert</a>. Все
+              права защищены.
+            </span>
+          </div>
+        </footer>
+      </div>
     </div>
+
 
 
 
