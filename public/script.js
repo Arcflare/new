@@ -1,5 +1,3 @@
-script.js
-
 document.getElementById("contactForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
